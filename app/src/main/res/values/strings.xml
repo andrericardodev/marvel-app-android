@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Marvel App</string>
+
+    <!-- app menu -->
+    <string name="app_menu_about">Sobre</string>
+    <string name="app_menu_favorites">Favoritos</string>
+    <string name="app_menu_heroes">Heróis</string>
+
 </resources>
