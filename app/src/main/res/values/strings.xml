@@ -6,4 +6,13 @@
     <string name="app_menu_favorites">Favorites</string>
     <string name="app_menu_about">About</string>
 
+    <!-- Characters -->
+    <string name="characters_screen_title">Characters</string>
+
+    <!-- Favorites -->
+    <string name="favorites_screen_title">Favorites</string>
+
+    <!-- About -->
+    <string name="about_screen_title">About</string>
+
 </resources>
