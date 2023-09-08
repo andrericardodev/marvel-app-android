@@ -4,16 +4,21 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.andrericardo.core.data.network.interceptor.AuthorizationInterception
 import dev.andrericardo.marvelapp.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Calendar
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    private const val TIMEOUT_SECONDS = 15L
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -26,11 +31,24 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideAuthorizationInterception(): AuthorizationInterception {
+        return AuthorizationInterception(
+            publicKey = BuildConfig.PUBLIC_KEY,
+            privateKey = BuildConfig.PRIVATE_KEY,
+            calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        )
+    }
+
+    @Provides
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authorizationInterception: AuthorizationInterception
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .readTimeout(15, TimeUnit.SECONDS)
-            .connectTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(authorizationInterception)
+            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
     }
 
