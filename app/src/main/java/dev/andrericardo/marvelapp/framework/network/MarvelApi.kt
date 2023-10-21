@@ -1,6 +1,6 @@
-package dev.andrericardo.core.data.network
+package dev.andrericardo.marvelapp.framework.network
 
-import dev.andrericardo.core.data.network.response.DataWrapperResponse
+import dev.andrericardo.marvelapp.framework.network.response.DataWrapperResponse
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
